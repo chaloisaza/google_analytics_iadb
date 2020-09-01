@@ -1,5 +1,5 @@
 {
-    "name": "drupal/google_analytics_iadb",
+    "name": "iadb/google_analytics_iadb",
     "type": "drupal-module",
     "description": "Switch Google Analytics code depending on the environment",
     "authors": [
