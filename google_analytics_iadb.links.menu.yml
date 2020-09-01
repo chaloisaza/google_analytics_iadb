@@ -1,0 +1,5 @@
+google_analytics_iadb.admin_settings_form:
+  title: 'Google Analytics IADB'
+  parent: system.admin_config_system
+  description: 'Configure your Google Analytics code'
+  route_name: google_analytics_iadb.admin_settings_form

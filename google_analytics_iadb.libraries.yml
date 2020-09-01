@@ -1,0 +1,7 @@
+google_analytics_iadb:
+  version: 1.x
+  js:
+    js/google_analytics_iadb.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal

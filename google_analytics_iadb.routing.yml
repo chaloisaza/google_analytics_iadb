@@ -1,0 +1,7 @@
+google_analytics_iadb.admin_settings_form:
+  path: '/admin/config/system/google_analytics_iadb/form'
+  defaults:
+    _form: '\Drupal\google_analytics_iadb\Form\GoogleAnalyticsForm'
+    _title: 'GoogleAnalyticsForm'
+  requirements:
+    _access: 'TRUE'

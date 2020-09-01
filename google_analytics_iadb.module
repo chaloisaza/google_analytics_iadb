@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Contains google_analytics_iadb.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Render\Markup;
+
+/**
+ * Implements hook_help().
+ */
+function google_analytics_iadb_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the google_analytics_iadb module.
+    case 'help.page.google_analytics_iadb':
+      return t('<h3>About</h3><p>Switch Google Analytics code depending on the environment.</p>');
+
+    case 'google_analytics.admin_settings_form':
+      return t('<a href=":ga_url">Google Analytics</a> is a free (registration required) website traffic and marketing effectiveness service.', [':ga_url' => 'https://marketingplatform.google.com/about/analytics/']);
+
+    default:
+      return 'No Informations';
+  }
+}
+
+/**
+ *
+ */
+function is_admin_edit_page() {
+  $route = \Drupal::routeMatch()->getRouteObject();
+
+  $is_admin_edit = FALSE;
+  if (!empty($route)) {
+    $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute($route);
+    $has_node_operation_option = $route->getOption('_node_operation_route');
+    $is_admin_edit = ($is_admin_route || $has_node_operation_option);
+  }
+  else {
+    $current_path = \Drupal::service('path.current')->getPath();
+    if (preg_match('/node\/(\d+)\/edit/', $current_path, $matches) ||
+      preg_match('/taxonomy\/term\/(\d+)\/edit/', $current_path, $matches)
+      ) {
+      $is_admin_edit = TRUE;
+    }
+  }
+  return $is_admin_edit;
+}
+
+/**
+ * @param array $attachments
+ */
+function google_analytics_iadb_page_attachments(array &$attachments) {
+  $is_admin_edit_page = is_admin_edit_page();
+
+  if (!$is_admin_edit_page) {
+
+    $config = \Drupal::config('google_analytics_iadb.settings');
+    $googleAnalyticsCode = $config->get('test');
+
+    if (isset($_ENV['PANTHEON_ENVIRONMENT']) && $_ENV['PANTHEON_ENVIRONMENT'] === 'live') {
+      $googleAnalyticsCode = $config->get('production');
+    }
+
+    $script = "";
+    $script .= "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){";
+    $script .= "  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),";
+    $script .= "  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)";
+    $script .= "  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');";
+
+    $script .= "  ga('create', '" . strval($googleAnalyticsCode) . "', 'auto');";
+    $script .= "  ga('send', 'pageview');";
+
+    $attachments['#attached']['html_head'][] = [
+      [
+        '#tag'   => 'script',
+        '#value' => Markup::create($script),
+      ],
+      'google_analytics_iadb',
+    ];
+  }
+}

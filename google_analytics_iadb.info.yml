@@ -1,0 +1,5 @@
+name: 'Google Analytics IADB'
+type: module
+description: 'Switch Google Analytics code depending on the environment'
+core: 8.x
+package: 'Custom'

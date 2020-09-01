@@ -1,0 +1,16 @@
+{
+    "name": "drupal/google_analytics_iadb",
+    "type": "drupal-module",
+    "description": "Switch Google Analytics code depending on the environment",
+    "authors": [
+        {
+            "name": "Juan Gonzalo",
+            "email": "chaloisaza@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "drupal/admin_toolbar_search": "^1.0"
+    }
+}
