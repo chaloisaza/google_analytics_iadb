@@ -45,7 +45,7 @@ class GoogleAnalyticsForm extends ConfigFormBase {
       '#title' => $this->t('Google Analytics Test Code'),
       '#description' => $this->t('Add your Google Analytics code for non production environments'),
       '#default_value' => $config->get('test'),
-      '#placeholder' => 'UA-XXXXXXX-X',
+      '#placeholder' => 'UA-',
       '#disabled' => 'disabled',
     ];
 
