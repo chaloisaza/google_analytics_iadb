@@ -12,5 +12,6 @@
     "require": {
         "php": "^7.2",
         "drupal/admin_toolbar_search": "^1.0"
-    }
+    },
+    "require-dev": {}
 }
